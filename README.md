@@ -53,4 +53,4 @@ All these categories have only been used with ARC programs. I don't care about a
 
 Licence
 =======
-The code is licensed under the MIT license. Go nuts with it. Or don't.
+The code is licensed under the MIT licence. Go nuts with it. Or don't.
