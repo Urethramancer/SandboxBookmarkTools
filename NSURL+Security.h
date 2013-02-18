@@ -1,33 +1,55 @@
 //
 //  NSURL_Security.h
-//  Copyright © 2013 Ronny Bangsund.
+//  SerialFiller
 //
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software
-// and associated documentation files (the "Software"), to deal in the Software without restriction,
-// including without limitation the rights to use, copy, modify, merge, publish, distribute,
-// sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all copies or
-// substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-// INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
-// PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE
-// FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
-// ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+//  Created by Ronny Bangsund on 2/18/13.
+//  Copyright (c) 2013 Neural Short-Circuit. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <Cocoa/Cocoa.h>
 
 @interface NSURL(Security)
++(void)bookmarkDataWithPath:(NSString *)path;
++(void)bookmarkDataWithPath:(NSString *)path isDirectory:(BOOL)dir;
++(NSURL *)restoreURLFromPath:(NSString *)path;
++(NSURL *)restoreURLFromPath:(NSString *)path isDirectory:(BOOL)dir;
 -(NSData *)saveBookmark;
 -(NSURL *)restoreBookmark;
 -(void)removeBookmark;
 @end
 
 @implementation NSURL(Security)
+// Fire & forget saving of a security bookmark directly from a path.
+// Use this while looping through files dropped by the user.
++(void)bookmarkDataWithPath:(NSString *)path
+{
+	NSURL *url = [NSURL fileURLWithPath:path];
+	[url saveBookmark];
+}
+
+
+// Or use this when looping through directories.
++(void)bookmarkDataWithPath:(NSString *)path isDirectory:(BOOL)dir
+{
+	NSURL *url = [NSURL fileURLWithPath:path isDirectory:dir];
+	[url saveBookmark];
+}
+
+
+// Shortcut from path to restored bookmarked URL.
++(NSURL *)restoreURLFromPath:(NSString *)path
+{
+	return [[NSURL fileURLWithPath:path] restoreBookmark];
+}
+
+
++(NSURL *)restoreURLFromPath:(NSString *)path isDirectory:(BOOL)dir
+{
+	return [[NSURL fileURLWithPath:path isDirectory:dir] restoreBookmark];
+}
+
+
 // Save a security bookmark for the URL to the standard user defaults.
 // The key is the path of the file (not a formatted URL).
 -(NSData *)saveBookmark
@@ -52,7 +74,7 @@
 	BOOL stale;
 	NSData *bookmark;
 	NSURL *url;
-
+	
 	bookmark = [[NSUserDefaults standardUserDefaults] objectForKey:[self path]];
 	url = [NSURL URLByResolvingBookmarkData:bookmark options:NSURLBookmarkResolutionWithSecurityScope relativeToURL:nil bookmarkDataIsStale:&stale error:&error];
 	// We don't need stale keys hanging around in the user defaults
