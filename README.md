@@ -6,29 +6,29 @@ A few categories to help with sandbox file access in OS X 10.7.3 and later.
 NSURL+Security.h
 ================
 Methods to save and restore security bookmarks for URLs. It's simple to use:
-```objectivec
+```smalltalk
 [url saveBookmark];
 ```
 or
-```objective-c
+```smalltalk
 NSURL *newurl = [url restoreBookmark];
 ```
 If there are any errors, it will call NSApp's presentError: method with the error message.
 If this is undesired, just remove that line.
 
 restoreBookmark will also remove any stale bookmarks automatically. To do this yourself:
-```objective-c
+```smalltalk
 [url removeBookmark];
 ```
 
 Then there are the even lazier shortcuts:
-```objective-c
+```smalltalk
 [NSURL bookmarkDataWithPath:@/Users/me/Pictures/w00t.png"];
 [NSURL bookmarkDataWithPath:@/Users/me/wherever/" isDirectory:YES];
 ```
 
 And to restore from just a string:
-```objective-c
+```smalltalk
 NSURL *url = [NSURL restoreURLFromPath:@/Users/me/Pictures/w00t.png"];
 NSURL *url = [NSURL restoreURLFromPath:@/Users/me/wherever/" isDirectory:YES];
 ```
@@ -39,7 +39,7 @@ Just one method to directly load an image previously bookmarked with the NSURL c
 It will use the access methods from OS X 10.7.3 if available, but will also work on 10.7.2 and earlier.
 
 Example:
-```objective-c
+```smalltalk
 NSImage *image = [NSImage initWithSecureContentsOfFile:@"/Users/me/Pictures/w00t.png"];
 ```
 
