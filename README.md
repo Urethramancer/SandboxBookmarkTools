@@ -24,12 +24,18 @@ restoreBookmark will also remove any stale bookmarks automatically. To do this y
 Then there are the even lazier shortcuts:
 ```smalltalk
 [NSURL bookmarkDataWithPath:@/Users/me/Pictures/w00t.png"];
+```
+For directories:
+```smalltalk
 [NSURL bookmarkDataWithPath:@/Users/me/wherever/" isDirectory:YES];
 ```
 
 And to restore from just a string:
 ```smalltalk
 NSURL *url = [NSURL restoreURLFromPath:@/Users/me/Pictures/w00t.png"];
+```
+And for directories:
+```smalltalk
 NSURL *url = [NSURL restoreURLFromPath:@/Users/me/wherever/" isDirectory:YES];
 ```
 
