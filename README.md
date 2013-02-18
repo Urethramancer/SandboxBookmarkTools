@@ -21,6 +21,18 @@ restoreBookmark will also remove any stale bookmarks automatically. To do this y
 [url removeBookmark];
 ```
 
+Then there are the even lazier shortcuts:
+```objc
+[NSURL bookmarkDataWithPath:@/Users/me/Pictures/w00t.png"];
+[NSURL bookmarkDataWithPath:@/Users/me/wherever/" isDirectory:YES];
+```
+
+And to restore from just a string:
+```objc
+NSURL *url = [NSURL restoreURLFromPath:@/Users/me/Pictures/w00t.png"];
+NSURL *url = [NSURL restoreURLFromPath:@/Users/me/wherever/" isDirectory:YES];
+```
+
 NSImage+Security
 ================
 Just one method to directly load an image previously bookmarked with the NSURL categories above.
